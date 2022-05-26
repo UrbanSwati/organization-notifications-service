@@ -1,18 +1,16 @@
 from datetime import datetime
 
 from lib.core.domain.entities.employee import Employee
-from lib.core.domain.entities.user import User
 
 employee = Employee(id=1,
                     name='test',
-                    last_name='last_name',
-                    date_of_birth=datetime.now(),
-                    employment_start_date=datetime.now())
+                    lastName='last_name',
+                    dateOfBirth=datetime.now(),
+                    employmentStartDate=datetime.now())
 
 
-def test_should_be_a_subclass_of_user_entity():
+def test_should_be_a_of_employee_entity():
     assert isinstance(employee, Employee)
-    assert isinstance(employee, User)
 
 
 def test_should_be_able_to_cast_to_dict():
@@ -20,30 +18,25 @@ def test_should_be_able_to_cast_to_dict():
     expected_dict = {
         'id': employee.id,
         'name': employee.name,
-        'last_name': employee.last_name,
-        'date_of_birth': employee.date_of_birth,
-        'last_birthday_notified': employee.last_birthday_notified,
-        'last_notification': employee.last_notification,
-        'employment_start_date': employee.employment_start_date,
-        'employment_end_date': employee.employment_end_date
+        'lastName': employee.lastName,
+        'dateOfBirth': employee.dateOfBirth,
+        'lastBirthdayNotified': employee.lastBirthdayNotified,
+        'lastNotification': employee.lastNotification,
+        'employmentStartDate': employee.employmentStartDate,
+        'employmentEndDate': employee.employmentEndDate
     }
 
     assert employee_dict == expected_dict
 
 
 def test_should_serialize_dict_to_class():
-    given_employee_dict = {
-        'id': 77,
-        'name': 'Zack',
-        'last_name': 'Snyder',
-        'date_of_birth': '1994-01-19T08:11:00',
-        'last_birthday_notified': None,
-        'last_notification': None,
-        'employment_start_date': '2022-06-19T21:11:00',
-        'employment_end_date': None
-    }
+    given_employee_dict = {'id': 100, 'name': 'Test', 'lastname': 'Test123', 'dateOfBirth': '1960-03-13T00:00:00',
+                           'employmentStartDate': '2001-03-01T00:00:00', 'employmentEndDate': None,
+                           'lastNotification': '2022-03-16T12:16:03.5156964+02:00',
+                           'lastBirthdayNotified': '2022-05-04'}
 
     employee_object = Employee.from_dict(given_employee_dict)
     assert isinstance(employee_object, Employee)
+    assert isinstance(employee_object.employmentStartDate, datetime)
     assert employee_object.id == given_employee_dict['id']
     assert employee_object.name == given_employee_dict['name']
