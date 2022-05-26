@@ -22,8 +22,7 @@ class EmployeesRemoteSourceImpl(EmployeesRemoteSource):
         raise ServerException('Could not get employees')
 
     async def get_employee_ids_excluded_from_notification(self) -> List[int]:
-        response = await self._http_client.get(url=
-            f'{config.base_url}/do-not-send-birthday-wishes')
+        response = await self._http_client.get(url=f'{config.base_url}/do-not-send-birthday-wishes')
         if response.status == 200:
             return response.json()
         raise ServerException('Could not get employees excluded from notifications')
