@@ -15,10 +15,12 @@ class BirthdayNotificationUseCaseImpl(BirthdayNotificationUseCase):
         self._employees_repo = employees_repo
 
     def _is_it_employees_birthday(self, emp: Employee, date_to_check: datetime):
+        # TODO: Consider leap years
         return emp.dateOfBirth.month == date_to_check.month and emp.dateOfBirth.day == date_to_check.day
 
     def _filter_by_employees_today_birthdays(self, employees_list: List[Employee]) -> List[Employee]:
-        todays_date = datetime.strptime('2022-01-15', '%Y-%m-%d')
+        # todays_date = datetime.strptime('2022-01-15', '%Y-%m-%d')
+        todays_date = datetime.now()
         return list(filter(
             lambda emp: self._is_it_employees_birthday(emp, todays_date),
             employees_list))
