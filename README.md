@@ -43,7 +43,7 @@ Create a `.env` file in the root directory which will contain your environment v
 the `.env.example` file which has an example of required environment variables for the service. Optional you can set the
 environment variables on your OS and the project should read them from there.
 
-## Running the Birthday Notification
+## Running the Birthday Notification Service
 
 Run this command to run the default birthday notification
 
