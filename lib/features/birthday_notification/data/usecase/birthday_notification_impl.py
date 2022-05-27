@@ -1,4 +1,5 @@
-from datetime import datetime, date
+import calendar
+from datetime import datetime
 from typing import List
 
 from config import config
@@ -15,30 +16,35 @@ class BirthdayNotificationUseCaseImpl(BirthdayNotificationUseCase):
         self._employees_repo = employees_repo
 
     def _is_it_employees_birthday(self, emp: Employee, date_to_check: datetime):
-        # TODO: Consider leap years
-        return emp.dateOfBirth.month == date_to_check.month and emp.dateOfBirth.day == date_to_check.day
+        birthday_month = emp.dateOfBirth.month
+        birthday_day = emp.dateOfBirth.day
+        check_month = date_to_check.month
+        check_day = date_to_check.day
+        if calendar.isleap(emp.dateOfBirth.year) and (birthday_month == 2 and birthday_day == 29) and (
+                check_month == 2 and check_day == 28):
+            return True
+        return birthday_month == check_month and birthday_day == check_day
 
-    def _filter_by_employees_today_birthdays(self, employees_list: List[Employee]) -> List[Employee]:
-        # todays_date = datetime.strptime('2022-01-15', '%Y-%m-%d')
-        todays_date = datetime.now()
+    def _filter_by_employees_birthdays(self, employees_list: List[Employee], date_to_check: datetime) -> List[Employee]:
         return list(filter(
-            lambda emp: self._is_it_employees_birthday(emp, todays_date),
+            lambda emp: self._is_it_employees_birthday(emp, date_to_check),
             employees_list))
 
-    def _should_emplyee_be_included(self, emp: Employee, excluded_employees_ids: List[int], date_filter: datetime):
+    @staticmethod
+    def _should_employee_be_included(emp: Employee, excluded_employees_ids: List[int], date_filter: datetime):
         return emp.id not in excluded_employees_ids \
                and emp.employmentEndDate is None \
                and emp.employmentStartDate is not None \
                and emp.employmentStartDate <= date_filter
 
-    def _filter_excluded_employees(
-            self,
+    @staticmethod
+    def filter_excluded_employees(
             employees_list: List[Employee],
             excluded_employees_ids: List[int]) -> List[Employee]:
         today_date = datetime.now()
 
         return list(
-            filter(lambda emp: self._should_emplyee_be_included(emp, excluded_employees_ids, today_date),
+            filter(lambda emp: BirthdayNotificationUseCaseImpl._should_employee_be_included(emp, excluded_employees_ids, today_date),
                    employees_list)
         )
 
@@ -49,11 +55,10 @@ class BirthdayNotificationUseCaseImpl(BirthdayNotificationUseCase):
         employees_list = await self._employees_repo.get_all_employees()
         employees_ids_to_exclude = await self._employees_repo.get_employees_ids_to_not_send_birthday_notification()
 
-        employees_not_excluded = self._filter_excluded_employees(employees_list, employees_ids_to_exclude)
+        employees_not_excluded = self.filter_excluded_employees(employees_list, employees_ids_to_exclude)
 
-        today_employees_birthday = self._filter_by_employees_today_birthdays(employees_not_excluded)
+        today_employees_birthday = self._filter_by_employees_birthdays(employees_not_excluded, datetime.now())
 
         names_of_employees = list(map(lambda emp: emp.name, today_employees_birthday))
         message = "Happy Birthday! " + ", ".join(names_of_employees)
         self._notification_repo.send_notification(config.recipient, message)
-
