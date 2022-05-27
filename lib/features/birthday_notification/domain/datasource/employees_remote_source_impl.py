@@ -14,7 +14,7 @@ class EmployeesRemoteSourceImpl(EmployeesRemoteSource):
 
     async def get_all_employees(self) -> List[Employee]:
         employees_list = []
-        response = await self._http_client.get(url=f'{config.base_url}/employees')
+        response = await self._http_client.get(url=f'{config.base_api_url}/employees')
         if response.status == 200:
             for employee in response.json():
                 employees_list.append(Employee.from_dict(employee))
@@ -22,7 +22,7 @@ class EmployeesRemoteSourceImpl(EmployeesRemoteSource):
         raise ServerException('Could not get employees')
 
     async def get_employee_ids_excluded_from_notification(self) -> List[int]:
-        response = await self._http_client.get(url=f'{config.base_url}/do-not-send-birthday-wishes')
+        response = await self._http_client.get(url=f'{config.base_api_url}/do-not-send-birthday-wishes')
         if response.status == 200:
             return response.json()
         raise ServerException('Could not get employees excluded from notifications')

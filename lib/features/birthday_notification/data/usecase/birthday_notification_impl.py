@@ -1,4 +1,5 @@
 import calendar
+import logging
 from datetime import datetime
 from typing import List
 
@@ -7,6 +8,8 @@ from lib.core.domain.entities.employee import Employee
 from lib.core.domain.repositories.notification_repository import NotificationRepository
 from lib.features.birthday_notification.data.repositories.employees_repository import EmployeesRepository
 from lib.features.birthday_notification.domain.usecases.birthday_notification import BirthdayNotificationUseCase
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 class BirthdayNotificationUseCaseImpl(BirthdayNotificationUseCase):
@@ -44,7 +47,8 @@ class BirthdayNotificationUseCaseImpl(BirthdayNotificationUseCase):
         today_date = datetime.now()
 
         return list(
-            filter(lambda emp: BirthdayNotificationUseCaseImpl._should_employee_be_included(emp, excluded_employees_ids, today_date),
+            filter(lambda emp: BirthdayNotificationUseCaseImpl._should_employee_be_included(emp, excluded_employees_ids,
+                                                                                            today_date),
                    employees_list)
         )
 
@@ -53,12 +57,20 @@ class BirthdayNotificationUseCaseImpl(BirthdayNotificationUseCase):
         Sends awesome company birthday message
         """
         employees_list = await self._employees_repo.get_all_employees()
+        logging.info(f'{len(employees_list)} Employees Retrieved')
         employees_ids_to_exclude = await self._employees_repo.get_employees_ids_to_not_send_birthday_notification()
 
         employees_not_excluded = self.filter_excluded_employees(employees_list, employees_ids_to_exclude)
+        logging.info(f'{len(employees_not_excluded)} Employees executed to birthday wishes :( ')
 
-        today_employees_birthday = self._filter_by_employees_birthdays(employees_not_excluded, datetime.now())
+        # NOTE: You can change this date to test locally
+        # date_to_check_birthday = datetime.strptime('2022-02-04', '%Y-%m-%d')
+        date_to_check_birthday = datetime.now()
 
-        names_of_employees = list(map(lambda emp: emp.name, today_employees_birthday))
-        message = "Happy Birthday! " + ", ".join(names_of_employees)
-        self._notification_repo.send_notification(config.recipient, message)
+        today_employees_birthday = self._filter_by_employees_birthdays(employees_not_excluded, date_to_check_birthday)
+        logging.info(f'{len(today_employees_birthday)} Employees to send birthday wishes')
+        if len(today_employees_birthday) > 0:
+            # only send email if there is someone's awesome birthday :P
+            names_of_employees = list(map(lambda emp: emp.name, today_employees_birthday))
+            message = "Happy Birthday! " + ", ".join(names_of_employees)
+            self._notification_repo.send_notification(config.recipient, message)
