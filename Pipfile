@@ -4,8 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pydantic = "*"
+pydantic = {extras = ["dotenv"], version = "*"}
 python-dateutil = "*"
+aiohttp = "*"
 
 [dev-packages]
 pytest = "*"
