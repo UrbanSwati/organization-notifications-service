@@ -1,12 +1,15 @@
 from typing import List
 
 from lib.core.domain.entities.employee import Employee
-from lib.features.birthday_notification.data.datasource.employees_remote_source import EmployeesRemoteSource
-from lib.features.birthday_notification.data.repositories.employees_repository import EmployeesRepository
+from lib.features.birthday_notification.data.datasource.employees_remote_source import (
+    EmployeesRemoteSource,
+)
+from lib.features.birthday_notification.data.repositories.employees_repository import (
+    EmployeesRepository,
+)
 
 
 class EmployeesRepositoryImpl(EmployeesRepository):
-
     def __init__(self, data_source: EmployeesRemoteSource):
         self._data_source = data_source
 

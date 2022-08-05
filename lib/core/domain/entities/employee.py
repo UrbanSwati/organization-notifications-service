@@ -31,14 +31,21 @@ class Employee:
         :return: Employee
         """
         employee_dict = copy(data)
-        employee_dict['lastName'] = employee_dict.get('lastName', data.get('lastname'))
+        employee_dict["lastName"] = employee_dict.get("lastName", data.get("lastname"))
 
-        del data['lastname']
-        del employee_dict['lastname']
+        del data["lastname"]
+        del employee_dict["lastname"]
 
-        for property_name in ['dateOfBirth', 'employmentStartDate', 'employmentEndDate', 'lastNotification',
-                              'lastBirthdayNotified']:
+        for property_name in [
+            "dateOfBirth",
+            "employmentStartDate",
+            "employmentEndDate",
+            "lastNotification",
+            "lastBirthdayNotified",
+        ]:
             property_value = data.get(property_name)
-            employee_dict[property_name] = parse(property_value) if property_value else None
+            employee_dict[property_name] = (
+                parse(property_value) if property_value else None
+            )
 
         return cls(**employee_dict)

@@ -5,7 +5,6 @@ from lib.core.domain.entities.employee import Employee
 
 
 class EmployeesRepository(ABC):
-
     @abstractmethod
     async def get_all_employees(self) -> List[Employee]:
         """

@@ -5,6 +5,7 @@ class NotificationRepository(ABC):
     """
     Base notification class to be used
     """
+
     @abstractmethod
     def send_notification(self, to, message):
         """

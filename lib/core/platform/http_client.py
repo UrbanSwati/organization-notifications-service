@@ -1,4 +1,4 @@
-from dataclasses import  dataclass
+from dataclasses import dataclass
 from abc import ABC, abstractmethod
 from typing import Dict, Optional, Union, List
 
@@ -12,7 +12,8 @@ class Response:
 
 
 class HTTPClient(ABC):
-
     @abstractmethod
-    async def get(self, url: str, headers: Optional[Dict] = None, timeout: int = 10) -> Response:
+    async def get(
+        self, url: str, headers: Optional[Dict] = None, timeout: int = 10
+    ) -> Response:
         pass
