@@ -1,5 +1,5 @@
 # Organization Notifications Service
-[![Tests](https://github.com/UrbanSwati/organization-notifications-service/actions/workflows/python-package.yml/badge.svg)](https://github.com/UrbanSwati/organization-notifications-service/actions/workflows/python-package.yml)
+[![Python package](https://github.com/UrbanSwati/organization-notifications-service/actions/workflows/python-package.yml/badge.svg)](https://github.com/UrbanSwati/organization-notifications-service/actions/workflows/python-package.yml)
 
 Service component that will send birthday wishes to employees with the ability be extended by developers to send any
 type of notifications for an organization
