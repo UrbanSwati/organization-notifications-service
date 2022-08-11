@@ -1,3 +1,5 @@
+import os
+
 from pydantic import BaseSettings, HttpUrl
 
 
@@ -11,4 +13,5 @@ class Config(BaseSettings):
     org_name: str
 
 
-config = Config(_env_file=".env")
+env_file = ".env.example" if os.environ.get("ENV") == "test" else ".env"
+config = Config(_env_file=env_file)
