@@ -8,14 +8,14 @@ from typing import Optional, Dict, Union, List
 import aiohttp
 
 from config import config
-from lib.core.data.repositories.notification_repository_impl import (
+from lib.core.domain.repositories.notification_repository_impl import (
     NotificationRepositoryImpl,
 )
-from lib.core.domain.datasource.notification_remote_source import (
+from lib.core.data.datasource.notification_remote_source import (
     NotificationRemoteSource,
 )
 from lib.core.platform.http_client import HTTPClient, Response
-from lib.features.birthday_notification.data.usecase.birthday_notification_impl import (
+from lib.features.birthday_notification.domain.usecases.birthday_notification_impl import (
     BirthdayNotificationUseCaseImpl,
 )
 from lib.features.birthday_notification.domain.datasource.employees_remote_source_impl import (

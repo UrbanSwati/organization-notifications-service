@@ -5,11 +5,11 @@ from typing import List
 
 from config import config
 from lib.core.domain.entities.employee import Employee
-from lib.core.domain.repositories.notification_repository import NotificationRepository
+from lib.core.data.repositories.notification_repository import NotificationRepository
 from lib.features.birthday_notification.data.repositories.employees_repository import (
     EmployeesRepository,
 )
-from lib.features.birthday_notification.domain.usecases.birthday_notification import (
+from lib.features.birthday_notification.data.usecase.birthday_notification import (
     BirthdayNotificationUseCase,
 )
 
@@ -88,7 +88,7 @@ class BirthdayNotificationUseCaseImpl(BirthdayNotificationUseCase):
             employees_list, employees_ids_to_exclude
         )
         logging.info(
-            f"{len(employees_not_excluded)} Employees executed to birthday wishes :( "
+            f"{len(employees_not_excluded)} Employees excluded to birthday wishes :( "
         )
 
         # NOTE: You can change this date to test locally

@@ -13,5 +13,5 @@ class Config(BaseSettings):
     org_name: str
 
 
-env_file = ".env.example" if os.environ.get("ENV") == "test" else ".env"
+env_file = ".env.example" if os.environ.get("ENV", "test") == "test" else ".env"
 config = Config(_env_file=env_file)

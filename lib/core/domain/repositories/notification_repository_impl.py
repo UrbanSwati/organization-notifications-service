@@ -1,7 +1,7 @@
-from lib.core.domain.datasource.notification_remote_source import (
+from lib.core.data.datasource.notification_remote_source import (
     NotificationRemoteSource,
 )
-from lib.core.domain.repositories.notification_repository import NotificationRepository
+from lib.core.data.repositories.notification_repository import NotificationRepository
 
 
 class NotificationRepositoryImpl(NotificationRepository):

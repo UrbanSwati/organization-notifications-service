@@ -1,4 +1,4 @@
-from lib.core.domain.datasource.notification_remote_source import (
+from lib.core.data.datasource.notification_remote_source import (
     NotificationRemoteSource,
 )
 import logging as log

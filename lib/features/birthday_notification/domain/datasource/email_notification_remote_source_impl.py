@@ -1,4 +1,4 @@
-from lib.core.domain.datasource.notification_remote_source import (
+from lib.core.data.datasource.notification_remote_source import (
     NotificationRemoteSource,
 )
 from lib.core.platform.mail_client import MailClient
